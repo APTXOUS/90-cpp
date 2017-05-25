@@ -3,38 +3,32 @@
 /*****************************************************************/
 void QRcode::FormatModule()
 {
-	int i, j;
 
-	ZeroMemory(module_code, 177 * 177);
+	memset(module_code, 0, 177 * 177);
 
-	// 機能モジュール配置
 	SetFunctionModule();
-
 	// データパターン配置
 	SetCodeWordPattern();
-	int m_nMaskingNo = -1;
-	if (m_nMaskingNo == -1)
+
+	// 最適マスキングパターン選択
+	int	m_nMaskingNo = 0;
+
+	SetMaskingPattern(m_nMaskingNo); // マスキング
+	SetFormatInfoPattern(m_nMaskingNo); // フォーマット情報パターン配置
+
+	int nMinPenalty = CountPenalty();
+
+	for (int i = 1; i <= 7; ++i)
 	{
-		// 最適マスキングパターン選択
-		m_nMaskingNo = 0;
+		SetMaskingPattern(i); // マスキング
+		SetFormatInfoPattern(i); // フォーマット情報パターン配置
 
-		SetMaskingPattern(m_nMaskingNo); // マスキング
-		SetFormatInfoPattern(m_nMaskingNo); // フォーマット情報パターン配置
+		int nPenalty = CountPenalty();
 
-		int nMinPenalty = CountPenalty();
-
-		for (i = 1; i <= 7; ++i)
+		if (nPenalty < nMinPenalty)
 		{
-			SetMaskingPattern(i); // マスキング
-			SetFormatInfoPattern(i); // フォーマット情報パターン配置
-
-			int nPenalty = CountPenalty();
-
-			if (nPenalty < nMinPenalty)
-			{
-				nMinPenalty = nPenalty;
-				m_nMaskingNo = i;
-			}
+			nMinPenalty = nPenalty;
+			m_nMaskingNo = i;
 		}
 	}
 
@@ -42,9 +36,9 @@ void QRcode::FormatModule()
 	SetFormatInfoPattern(m_nMaskingNo); // フォーマット情報パターン配置
 
 										// モジュールパターンをブール値に変換
-	for (i = 0; i < m_nSymbleSize; ++i)
+	for (int i = 0; i < m_nSymbleSize; ++i)
 	{
-		for (j = 0; j < m_nSymbleSize; ++j)
+		for (int j = 0; j < m_nSymbleSize; ++j)
 		{
 			module_code[i][j] = (BYTE)((module_code[i][j] & 0x11) != 0);
 		}
@@ -180,7 +174,7 @@ void QRcode::SetCodeWordPattern()
 
 	int i, j;
 
-	for (i = 0; i <num_code_word_without; ++i)
+	for (i = 0; i < num_code_word_without; ++i)
 	{
 		for (j = 0; j < 8; ++j)
 		{
@@ -221,7 +215,7 @@ void QRcode::SetMaskingPattern(int nPatternNo)
 			if (!(module_code[j][i] & 0x20)) // 機能モジュールを除外
 			{
 				bool bMask;
-
+				//bMask = ((i + j) % 3 == 0);
 				switch (nPatternNo)
 				{
 				case 0:
@@ -467,5 +461,18 @@ int QRcode::CountPenalty()
 	nPenalty += (abs(50 - ((nCount * 100) / (m_nSymbleSize * m_nSymbleSize))) / 5) * 10;
 
 	return nPenalty;
+}
+char* QRcode::G2U(const char* gb2312)
+{
+	int len = MultiByteToWideChar(CP_ACP, 0, gb2312, -1, NULL, 0);
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_ACP, 0, gb2312, -1, wstr, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr) delete[] wstr;
+	return str;
 }
 /*******************************************************************/

@@ -16,19 +16,6 @@ QRcode::~QRcode()
 	if (code_word_final)
 		delete code_word_final;
 }
-char* QRcode::G2U(const char* gb2312)
-{
-	int len = MultiByteToWideChar(CP_ACP, 0, gb2312, -1, NULL, 0);
-	wchar_t* wstr = new wchar_t[len + 1];
-	memset(wstr, 0, len + 1);
-	MultiByteToWideChar(CP_ACP, 0, gb2312, -1, wstr, len);
-	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
-	char* str = new char[len + 1];
-	memset(str, 0, len + 1);
-	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
-	if (wstr) delete[] wstr;
-	return str;
-}
 bool QRcode::encode_byte()
 {
 	int length = strlen(target);
@@ -116,12 +103,12 @@ int QRcode::auto_version()
 {
 	int num = 1 + strlen(target);
 
-	for (int i = 0; i <= QR_VRESION_L; ++i)
+	for (int i = 0; i <= QR_VRESION_L; i++)
 	{
 
 		if (i == QR_VRESION_S)
 		{
-			for (int j = 1; j <= 9; ++j)
+			for (int j = 1; j <= 9; j++)
 			{
 				if ((num + 1) <= QR_VersonInfo[j].ncDataCodeWord[version_level])
 					return j;
@@ -129,7 +116,7 @@ int QRcode::auto_version()
 		}
 		else if (i == QR_VRESION_M)
 		{
-			for (int j = 10; j <= 26; ++j)
+			for (int j = 10; j <= 26; j++)
 			{
 				if ((num + 2) <= QR_VersonInfo[j].ncDataCodeWord[version_level])
 					return j;
@@ -137,7 +124,7 @@ int QRcode::auto_version()
 		}
 		else if (i == QR_VRESION_L)
 		{
-			for (int j = 27; j <= 40; ++j)
+			for (int j = 27; j <= 40; j++)
 			{
 				if ((num + 2) <= QR_VersonInfo[j].ncDataCodeWord[version_level])
 					return j;
@@ -264,6 +251,8 @@ void QRcode::change_bool_into_char()
 bool QRcode::encode_qrcode(const char * source, int nlevel)
 {
 	target = G2U(source);
+	
+	//target = (char *)source;
 	target_num = strlen(target);
 	version_level = nlevel;
 	version = auto_version();

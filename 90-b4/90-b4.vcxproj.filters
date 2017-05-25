@@ -15,15 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="qrcode.h">
+    <ClInclude Include="90-b4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cmd_console_tools.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mian.cpp">
+    <ClCompile Include="90-b4-exist.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="qrcode.cpp">
+    <ClCompile Include="90-b4-main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="90-b4-myself.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd_console_tools.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

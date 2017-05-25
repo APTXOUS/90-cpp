@@ -20,10 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{A7E2FDDA-9A36-4F48-822B-F6CC2514F380}</ProjectGuid>
+    <ProjectGuid>{1582A177-A44B-4545-9656-914E6A881CDB}</ProjectGuid>
     <RootNamespace>My90b4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>90-b4-1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -112,11 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="qrcode.h" />
+    <ClInclude Include="90-b4.h" />
+    <ClInclude Include="cmd_console_tools.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mian.cpp" />
-    <ClCompile Include="qrcode.cpp" />
+    <ClCompile Include="90-b4-exist.cpp" />
+    <ClCompile Include="90-b4-main.cpp" />
+    <ClCompile Include="90-b4-myself.cpp" />
+    <ClCompile Include="cmd_console_tools.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
