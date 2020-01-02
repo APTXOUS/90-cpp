@@ -210,7 +210,7 @@ int judge_zero(const int arr[][MAX_COLUMN])
 }
 int input_document(const char *name, FILE_NAME **document_name)
 {
-	long file;
+	long long file;
 	struct _finddata_t find;
 	char *file_name;
 	file_name = new(nothrow)char[strlen(name) + 4];

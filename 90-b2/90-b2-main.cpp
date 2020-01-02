@@ -43,7 +43,7 @@ int mode2(const int p)
 	reset(book);
 	reset(color);
 	reset(origin);
-	FILE_NAME *head, *target;
+	FILE_NAME *head=NULL, *target=NULL;
 	if (p != 1)
 	{
 		if (input_document("sudoku", &head) == -1)

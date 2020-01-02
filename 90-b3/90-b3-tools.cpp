@@ -113,7 +113,7 @@ int find_document(const char *name)
 	}
 	else
 	{
-		_findclose(file);
+		//_findclose(file);
 		return 1;
 	}
 }
