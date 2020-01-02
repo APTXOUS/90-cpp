@@ -12,10 +12,10 @@ int main() {
 	cin >> num;
 	int num_str = strlen(input_);
 	if (num_str > 20)
-		setfontsize(hout, L"点阵字体", 5);
-	else
 		setfontsize(hout, L"点阵字体", 10);
-	setconsoleborder(hout, 200, 100);
+	else
+		setfontsize(hout, L"点阵字体", 20);
+	setconsoleborder(hout, 100, 100);
 	a.encode_qrcode(input_ ,num);
 	system("cls");
 	int i, j;
